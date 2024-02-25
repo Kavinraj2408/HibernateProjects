@@ -8,6 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import com.kavin.DemoHibernate.model.Alien;
+import com.kavin.DemoHibernate.model.AlienName;
 
 /**
  * Hello world!
@@ -17,10 +18,13 @@ public class App
 {
     public static void main( String[] args )
     {
+    	AlienName an = new AlienName();
+    	an.setfName("Kavinraj");
+    	an.setlName("Anandharaj");
         Alien alien = new Alien();
-//        alien.setAid(4);
-//        alien.setAname("Harsi");
-//        alien.setColor("Yellow");
+//        alien.setAid();
+        alien.setAname(an);
+        alien.setColor("Green");
         
         Configuration con = new Configuration().configure().addAnnotatedClass(Alien.class);
         
@@ -32,9 +36,9 @@ public class App
         
         Transaction tx = session.beginTransaction();
         
-        alien = (Alien)session.get(Alien.class, 4);
-        System.out.println(alien.toString());
-//        session.save(alien);
+//        alien = (Alien)session.get(Alien.class, 4);
+//        System.out.println(alien.toString());
+        session.save(alien);
         tx.commit();
     }
 }
