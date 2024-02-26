@@ -19,8 +19,8 @@ public class App
     public static void main( String[] args )
     {
     	AlienName an = new AlienName();
-    	an.setfName("Kavinraj");
-    	an.setlName("Anandharaj");
+    	an.setfName("Harsi");
+    	an.setlName("Prathap");
         Alien alien = new Alien();
 //        alien.setAid();
         alien.setAname(an);
