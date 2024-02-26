@@ -6,6 +6,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
 
 import com.kavin.DemoHibernate.model.Alien;
 import com.kavin.DemoHibernate.model.AlienName;
@@ -19,12 +20,12 @@ public class App
     public static void main( String[] args )
     {
     	AlienName an = new AlienName();
-    	an.setfName("Harsi");
-    	an.setlName("Prathap");
+//    	an.setfName("Harsi");
+//    	an.setlName("Prathap");
         Alien alien = new Alien();
 //        alien.setAid();
-        alien.setAname(an);
-        alien.setColor("Green");
+//        alien.setAname(an);
+//        alien.setColor("Yellow");
         
         Configuration con = new Configuration().configure().addAnnotatedClass(Alien.class);
         
@@ -32,13 +33,31 @@ public class App
         
         SessionFactory sf = con.buildSessionFactory(reg);
         
-        Session session = sf.openSession();
+        Session session1 = sf.openSession();
         
-        Transaction tx = session.beginTransaction();
+        Transaction tx = session1.beginTransaction();
         
-//        alien = (Alien)session.get(Alien.class, 4);
-//        System.out.println(alien.toString());
-        session.save(alien);
+//        alien = (Alien)session1.get(Alien.class, 4);
+        
+        Query q1 = session1.createQuery("from Alien where aid = '4'");
+        q1.setCacheable(true);
+        alien = (Alien)q1.uniqueResult();
+        System.out.println(alien.toString());
         tx.commit();
+        session1.close();
+        
+        Session session2 = sf.openSession();
+        session2.beginTransaction();
+//        alien = session2.get(Alien.class, 4);
+
+        Query q2 = session2.createQuery("from Alien where aid = '4'");
+        q2.setCacheable(true);
+        alien = (Alien)q2.uniqueResult();
+        System.out.println(alien);
+        session2.getTransaction().commit();
+        session2.close();
+        
+//        session.save(alien);
+        
     }
 }
